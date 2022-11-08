@@ -58,9 +58,11 @@ export default class News extends Component {
     }
 
     render() {
+        let {mode} = this.props;
+
         return (
         <div className='container my-3'>
-            <h2 className='text-center' style={{margin: '30px 0px', marginTop: '90px'}}>Top {this.captalizeFL(this.props.category)} Headlines</h2>
+            <h2 className='text-center' style={{margin: '30px 0px', marginTop: '90px', color: mode==='light'?'black':'white'}}>Top {this.captalizeFL(this.props.category)} Headlines</h2>
             {this.state.loading && <Spinner />}
             <div className="row">
                 {
@@ -75,14 +77,15 @@ export default class News extends Component {
                                 author={element.author? element.author: "Unknown"} 
                                 date={element.publishedAt} 
                                 source={element.source.name}
+                                mode={mode}
                             />
                         </div>
                     })
                 }
             </div>
             <div className="container d-flex justify-content-between">
-                <button type="button" disabled={this.state.page<=1} onClick={this.handlePrevClick} className="btn btn-dark">&larr; Previous</button>
-                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/this.props.pageSize)} onClick={this.handleNextClick} className="btn btn-dark">Next &rarr;</button>
+                <button type="button" disabled={this.state.page<=1} onClick={this.handlePrevClick} className={`btn btn-${mode==='light'? 'dark': 'light'}`}>&larr; Previous</button>
+                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/this.props.pageSize)} onClick={this.handleNextClick} className={`btn btn-${mode==='light'? 'dark': 'light'}`}>Next &rarr;</button>
             </div>
         </div>
         )
